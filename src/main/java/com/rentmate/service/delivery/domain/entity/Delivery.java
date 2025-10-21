@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -28,6 +29,7 @@ public class Delivery {
     private Long rentalId;
     private Long renterId;
     private Long ownerId;
+    private Long itemId;
 
     private String renterAddress ;
     private String ownerAddress;
@@ -38,6 +40,11 @@ public class Delivery {
     private BigDecimal deliveryCost;
 
     private String type ; //forward , return
+
+    private LocalDateTime startDate;
+    private LocalDateTime scheduledStartTime;
+
+    private boolean started = false; // هل بدأت فعلاً؟
 
     @CreatedDate
     private Date createdDate;

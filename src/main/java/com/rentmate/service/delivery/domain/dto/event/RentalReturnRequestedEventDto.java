@@ -10,6 +10,7 @@ public class RentalReturnRequestedEventDto implements Serializable {
     private Long rentalId;
     private Long renterId;
     private Long ownerId;
+    private Long itemId ;
 
     private String renterAddress;
     private String ownerAddress;

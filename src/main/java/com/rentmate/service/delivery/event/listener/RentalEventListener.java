@@ -11,14 +11,15 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
 public class RentalEventListener {
 
-        private final DeliveryCostService costService = null;
-        private final DeliveryProcessService processService=null;
+        private final DeliveryCostService costService ;
+        private final DeliveryProcessService processService;
 
         @RabbitListener(queues = RabbitMQConfig.RENTAL_TO_DELIVERY_QUEUE)
 
@@ -28,17 +29,14 @@ public class RentalEventListener {
             switch (eventType) {
                 case "rental.cost.requested":
 
-                    RentalCostRequestedEventDto dto =
-                            new RentalCostRequestedEventDto();
-
+                    RentalCostRequestedEventDto dto = new RentalCostRequestedEventDto();
                     dto.setRentalId(Long.valueOf(payload.get("rentalId").toString()));
+                    dto.setItemId(Long.valueOf(payload.get("itemId").toString()));
                     dto.setRenterId(Long.valueOf(payload.get("renterId").toString()));
                     dto.setOwnerId(Long.valueOf(payload.get("ownerId").toString()));
                     dto.setRenterAddress(payload.get("renterAddress").toString());
                     dto.setOwnerAddress(payload.get("ownerAddress").toString());
-
                     costService.handleCostRequest(dto);
-
 
                 break;
 
@@ -48,7 +46,9 @@ public class RentalEventListener {
                             Long.valueOf(payload.getOrDefault("renterId", "0").toString()),
                             Long.valueOf(payload.getOrDefault("ownerId", "0").toString()),
                             String.valueOf(payload.getOrDefault("renterAddress", "")),
-                            String.valueOf(payload.getOrDefault("ownerAddress", ""))
+                            String.valueOf(payload.getOrDefault("ownerAddress", "")) ,
+                            LocalDateTime.parse(payload.get("startDate").toString())
+
                     );
                     break;
 
@@ -58,6 +58,7 @@ public class RentalEventListener {
                             Long.valueOf(payload.get("rentalId").toString()),
                             Long.valueOf(payload.getOrDefault("renterId", "0").toString()),
                             Long.valueOf(payload.getOrDefault("ownerId", "0").toString()) ,
+                            Long.valueOf(payload.getOrDefault("itemId", "0").toString()) ,
                             String.valueOf(payload.getOrDefault("renterAddress", "")),
                             String.valueOf(payload.getOrDefault("ownerAddress", ""))
                     );

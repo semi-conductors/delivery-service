@@ -3,6 +3,7 @@ package com.rentmate.service.delivery.domain.dto.event;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 public class RentalDeliveryRequestedEventDto implements Serializable {
@@ -13,5 +14,6 @@ public class RentalDeliveryRequestedEventDto implements Serializable {
 
     private String renterAddress;
     private String ownerAddress;
+    private LocalDateTime startDate;
 
 }

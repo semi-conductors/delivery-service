@@ -3,6 +3,7 @@ package com.rentmate.service.delivery.domain.dto.event;
 
 import lombok.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +14,7 @@ public class RentalCostRequestedEventDto implements Serializable {
     private Long rentalId;
     private Long renterId;
     private Long ownerId;
+    private Long itemId ;
 
     private String renterAddress;
     private String ownerAddress;
