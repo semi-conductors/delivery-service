@@ -17,14 +17,13 @@ import java.math.BigDecimal;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Data
 public class DeliveryCostService {
 
     private final DeliveryEventPublisher publisher;
     private static final BigDecimal COST_PER_10KM = BigDecimal.valueOf(20.0);
   @NotNull
     public void handleCostRequest(com.rentmate.service.delivery.domain.dto.event.RentalCostRequestedEventDto dto) {
-
+       log.info("start handle cost function");
         String renterAddress = dto.getRenterAddress();
         String ownerAddress = dto.getOwnerAddress();
 

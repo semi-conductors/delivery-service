@@ -5,8 +5,8 @@ import com.rentmate.service.delivery.domain.dto.event.RentalCostRequestedEventDt
 import com.rentmate.service.delivery.service.DeliveryProcessService;
 
 import com.rentmate.service.delivery.service.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RentalEventListener {
@@ -65,7 +66,7 @@ public class RentalEventListener {
                     break;
 
                 default:
-                    // UNKNOWN event -> log or ignore
+                    log.info("no event type selected ");
                     break;
             }
         }

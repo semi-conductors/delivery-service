@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RentalCostRequestedEventDto implements Serializable {
+public class RentalCostRequestedEventDto {
     private String eventType; // "rental.cost.requested"
     private Long rentalId;
     private Long renterId;

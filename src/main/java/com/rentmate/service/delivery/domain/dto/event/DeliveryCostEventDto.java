@@ -4,7 +4,7 @@ import java.io.Serializable;
 import lombok.Data;
 import java.math.BigDecimal;
 
-public class DeliveryCostEventDto implements Serializable {
+public class DeliveryCostEventDto{
     private String eventType; // "delivery.deliveryCost"
     private Long rentalId;
    // private Long renterId;

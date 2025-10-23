@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class RentalDeliveryRequestedEventDto implements Serializable {
+public class RentalDeliveryRequestedEventDto {
     private String eventType; // "rental.delivery.requested"
     private Long rentalId;
     private Long renterId;

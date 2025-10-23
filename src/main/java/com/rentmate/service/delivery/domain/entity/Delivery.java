@@ -44,6 +44,10 @@ public class Delivery {
     private LocalDateTime startDate;
     private LocalDateTime scheduledStartTime;
 
+    @ManyToOne
+    @JoinColumn(name = "delivery_guy_id")
+    private DeliveryGuy assignedDeliveryGuy;
+
     private boolean started = false; // هل بدأت فعلاً؟
 
     @CreatedDate
