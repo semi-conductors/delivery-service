@@ -47,7 +47,7 @@ public class DeliveryEventPublisher {
         );
 
         try {
-            rabbitTemplate.convertAndSend(exchange, "delivery.status", msg);
+            rabbitTemplate.convertAndSend(exchange, "delivery.return.status", msg);
             log.info("📦 Published delivery status event → Exchange='{}', RoutingKey='delivery.status', eventType='{}', rentalId={}",
                     exchange, eventType, rentalId);
         } catch (Exception e) {

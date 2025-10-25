@@ -8,6 +8,7 @@ import com.rentmate.service.delivery.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 
@@ -48,7 +49,9 @@ public class RentalEventListener {
                             Long.valueOf(payload.getOrDefault("ownerId", "0").toString()),
                             String.valueOf(payload.getOrDefault("renterAddress", "")),
                             String.valueOf(payload.getOrDefault("ownerAddress", "")) ,
-                            LocalDateTime.parse(payload.get("startDate").toString())
+                            LocalDateTime.parse(String.valueOf(payload.get("startDate")))
+
+
 
                     );
                     break;

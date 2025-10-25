@@ -48,12 +48,16 @@ public class DeliveryCostService {
         BigDecimal distanceBD = BigDecimal.valueOf(totalKm);
         BigDecimal multiplier = distanceBD.divide(BigDecimal.TEN, 0, RoundingMode.CEILING);
         BigDecimal totalCost = multiplier.multiply(COST_PER_10KM);
+        if(totalCost.equals(BigDecimal.ZERO)){
+            totalCost = totalCost.add(BigDecimal.valueOf(20));
+
+        }
 
         log.debug("Forward={} km, Return={} km, Total={} km, Cost={} for rentalId={}",
                 forwardKm, returnKm, totalKm, totalCost, dto.getRentalId());
 
         // نشر الحدث
-        publisher.publishDeliveryCost(dto.getRentalId(), totalCost);
+        publisher.publishDeliveryCost(dto.getRentalId(),totalCost);
     }
 
     private double[] geocodeAddress(String address) {
