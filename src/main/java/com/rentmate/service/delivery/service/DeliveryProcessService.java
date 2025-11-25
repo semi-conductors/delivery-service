@@ -73,7 +73,7 @@ public class DeliveryProcessService {
                         .deliveryManId(guy.getId())
                         .from(delivery.getOwnerAddress())
                         .to(delivery.getRenterAddress())
-                        .expectedDeliveryTime(delivery.getScheduledStartTime()) // أو احسبي زمن الوصول
+                        .expectedDeliveryTime(delivery.getScheduledStartTime())
                         .build()
         );
 
@@ -124,7 +124,7 @@ public class DeliveryProcessService {
         }
 
         publisher.publishStatus("delivery.delivered", delivery.getRentalId());
-      
+
 
     }
 

@@ -20,24 +20,30 @@ public class RabbitMQConfig {
 
         public static final String DELIVERY_EXCHANGE = "delivery.exchange";
         public static final String USER_EXCHANGE = "users.exchange";
-
+    public static final String NOTIFICATION_EXCHANGE = "notification-exchange";
 
 
     public static final String RENTAL_TO_DELIVERY_QUEUE = "rental.delivery.queue";
     public static final String USER_TO_DELIVERY_QUEUE = "user.delivery.queue";
+    public static final String NOTIFICATION_TO_DELIVERY_QUEUE = "notification-queue";
 
 
     public static final String  RENTAL_ROUTING_KEY = "rental.*" ; //rental.cost.requested
     public static final String  DELIVERY_ROUTING_KEY = "delivery.*" ;
     public static final String USER_ROUTING_KEY = "user.registered";
-    public static final String DELIVERY_ASSIGNED_ROUTING_KEY = "delivery.assigned";
-    public static final String DELIVERY_ARRIVED_ROUTING_KEY = "delivery.arrived";
+    public static final String NOTIFICATION_ROUTING_KEY = "notification.key";
+
 
 
     @Bean
     public TopicExchange deliveryExchange() {
         System.out.println("Creating exchange: " + DELIVERY_EXCHANGE);
         return new TopicExchange(DELIVERY_EXCHANGE);
+    }
+    @Bean
+    public TopicExchange notificationExchange() {
+        System.out.println("Creating exchange: " + NOTIFICATION_EXCHANGE);
+        return new TopicExchange(NOTIFICATION_EXCHANGE);
     }
 
 
@@ -58,12 +64,12 @@ public class RabbitMQConfig {
     public Queue userToDeliveryQueue() {
         return new Queue(USER_TO_DELIVERY_QUEUE, true);
     }
+    @Bean
+    public Queue notificationToDeliveryQueue() {
+        return new Queue(NOTIFICATION_TO_DELIVERY_QUEUE, true);
+    }
 
 
-    // @Bean
-        //public Queue deliveryToRentalQueue() {
-           // return new Queue(DELIVERY_TO_RENTAL_QUEUE, true);
-        //}
 
     @Bean
     public Binding bindingDeliveryEventQueue(
@@ -80,6 +86,14 @@ public class RabbitMQConfig {
             TopicExchange exchange){
         return BindingBuilder.bind(queue).to(exchange).with(USER_ROUTING_KEY);
     }
+    @Bean
+    public Binding bindingNotificationEventQueue(
+            @Qualifier("notificationToDeliveryQueue") Queue queue,
+            @Qualifier("notificationExchange")
+            TopicExchange exchange){
+        return BindingBuilder.bind(queue).to(exchange).with(NOTIFICATION_ROUTING_KEY);
+    }
+
 
 
     @Bean

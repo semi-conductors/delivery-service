@@ -1,7 +1,9 @@
 package com.rentmate.service.delivery.event.publisher;
 
 import com.rentmate.service.delivery.config.RabbitMQConfig;
+import com.rentmate.service.delivery.domain.Mapper.NotificationMapper;
 import com.rentmate.service.delivery.domain.dto.event.DeliveryAssignedEventDto;
+import com.rentmate.service.delivery.domain.dto.event.NotificationEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -17,8 +19,10 @@ public class DeliveryEventPublisher {
 
     private final RabbitTemplate rabbitTemplate;
     private final String exchange = "rental.exchange";
+    private final String NOTIFICATION_EXCHANGE = "notification-exchange";
     private final String DELIVERY_COST_ROUTING_KEY = "DeliveryService.deliveryCost";
-    private  final String DELIVERY_ASSIGNED_ROUTING_KEY = "delivery.assigned";
+    private final String NOTIFICATION_ROUTING_KEY = "notification.key";
+
     public void publishDeliveryCost(Long rentalId, BigDecimal cost) {
         Map<String, Object> msg = Map.of(
                 "eventType", "delivery.deliveryCost",
@@ -52,14 +56,15 @@ public class DeliveryEventPublisher {
     }
     public void publishAssignedEvent(DeliveryAssignedEventDto event) {
         try {
+            NotificationEvent notificationEvent = NotificationMapper.toNotificationEvent(event);
             rabbitTemplate.convertAndSend(
-                    RabbitMQConfig.DELIVERY_EXCHANGE,
-                    DELIVERY_ASSIGNED_ROUTING_KEY,
-                    event
+                    NOTIFICATION_EXCHANGE,
+                    NOTIFICATION_ROUTING_KEY,
+                    notificationEvent
             );
             log.info("📦 Published DeliveryAssignedEvent → Exchange='{}', RoutingKey='{}', rentalId={}, courierId={}",
-                    RabbitMQConfig.DELIVERY_EXCHANGE,
-                    DELIVERY_ASSIGNED_ROUTING_KEY,
+                    NOTIFICATION_EXCHANGE,
+                    NOTIFICATION_ROUTING_KEY,
                     event.getDeliveryId(),
                     event.getDeliveryManId()
             );
